@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Maseno Investments</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 400px;
+      margin: 50px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 2px 8px rgba(0,0,0,0.2);
+    }
+    h2 {
+      text-align: center;
+    }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      background: #0077cc;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #005fa3;
+    }
+    .dashboard {
+      display: none;
+      max-width: 600px;
+      margin: 30px auto;
+      padding: 20px;
+    }
+    .panel {
+      background: white;
+      margin: 10px 0;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+    }
+    .logout-btn {
+      background: red;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LOGIN FORM -->
+  <div class="container" id="loginPage">
+    <h2>Maseno Investments Login</h2>
+    <input type="text" id="username" placeholder="Enter Name" required>
+    <input type="text" id="phone" placeholder="Enter Phone Number" required>
+    <input type="password" id="password" placeholder="Set or Enter Password" required>
+    <button onclick="login()">Login</button>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="dashboard" id="dashboard">
+    <h2>Maseno Investments Dashboard</h2>
+    <div class="panel" id="profilePanel">Profile Details</div>
+    <div class="panel" id="wealthPanel">Wealth Fund: 0 KES</div>
+    <div class="panel" id="savingsPanel">Monthly Savings: 0 KES</div>
+    <div class="panel" id="balancePanel">Account Balance: 0 KES</div>
+    <div class="panel" id="purchasesPanel">Total Purchases: 0</div>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </div>
+
+  <script>
+    function login() {
+      let username = document.getElementById("username").value;
+      let phone = document.getElementById("phone").value;
+      let password = document.getElementById("password").value;
+
+      if (!username || !phone || !password) {
+        alert("Please fill all fields");
+        return;
+      }
+
+      // Save user data in localStorage
+      if (!localStorage.getItem(username + "_password")) {
+        localStorage.setItem(username + "_password", password);
+        localStorage.setItem(username + "_phone", phone);
+        alert("Account created successfully!");
+      }
+
+      // Check password
+      let savedPass = localStorage.getItem(username + "_password");
+      if (password === savedPass) {
+        document.getElementById("loginPage").style.display = "none";
+        document.getElementById("dashboard").style.display = "block";
+
+        // Show profile info
+        document.getElementById("profilePanel").innerText =
+          "Name: " + username + "\nPhone: " + phone;
+      } else {
+        alert("Wrong password!");
+      }
+    }
+
+    function logout() {
+      document.getElementById("dashboard").style.display = "none";
+      document.getElementById("loginPage").style.display = "block";
+    }
+  </script>
+
+</body>
+</html>
